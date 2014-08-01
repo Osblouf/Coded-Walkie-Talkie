@@ -1,4 +1,8 @@
 Coded-Walkie-Talkie
 ===================
 
-Using network coding in walkie talkie application
+Using network coding in a walkie talkie application.
+
+This is a student project for the Aalborg university summer school in network coding.
+
+The main objective is todemonstrate the power of network coding in broadcasting information to a cloud of walkie talkies.
