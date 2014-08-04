@@ -1,0 +1,31 @@
+PyAudio Fast Use Documentation
+
+by D3Rnatch on 4/08
+
+#Installation of PyAudio 
+
+run those command line :
+$ sudo apt-get install git
+$ sudo git clone http://people.csail.mit.edu/hubert/git/pyaudio.git
+$ sudo apt-get install libportaudio0 libportaudio2 libportaudiocpp0 portaudio19-dev
+$ sudo apt-get install python-dev
+$ cd pyaudio
+$ sudo python setup.py install
+
+/!\ If problem with Python.h see this topic :
+	http://stackoverflow.com/questions/8282231/ubuntu-i-have-
+	python-but-gcc-cant-find-python-h
+
+	/!\ if dead link :
+	http://python.org/ftp/python/2.7.2/Python-2.7.2.tar.bz2
+	tar xjf Python-2.7.2.tar.bz2
+	cd Python-2.7.2
+	./configure --prefix=/home/username/python --enable-
+	unicode=ucs4
+	make
+	make install
+
+
+# open a stream audio
+# read a stream audio
+# capture an audio stream
