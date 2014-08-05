@@ -1,8 +1,10 @@
 # This module will manage configurations
 
 # Last modification : Loic 
+from datetime import datetime
 
 import argparse
+
 
 class Config_manager:
 
@@ -31,6 +33,20 @@ class Config_manager:
 	# Get all infos from the command line
 	def parse(self):
 		self.args = self.parser.parse_args()
-		print self.args
+		if self.args.verbose:
+			print "\nGiven arguments: "
+			print self.args 
+			print "--\n"
 		
-		
+	# Manage the verbose messages
+	def verbose_message(self, message):
+		if self.args.verbose:
+			print '[' + datetime.utcnow().strftime('%H:%M:%S.%f') + '] Verbose message :'
+			print "\t" + message
+
+	# Manage the debug messages
+	def debug_message(self, message):
+		if self.args.debug:
+			print '[' + datetime.utcnow().strftime('%H:%M:%S.%f') + '] Debug message :'
+			print '\t' + message
+
