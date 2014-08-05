@@ -10,4 +10,8 @@ class audio_core:
 	# The sink argument define if the device is a sink (0 or 1) and if it should play what it can read
 	def __init__(self, file_name=""):
 
+	# Play the "data" => more like puting data into the pipe
+	def Play(self, data):
 
+	# Get data from the audio source (file if defined, mic otherwise)
+	def Read(self):

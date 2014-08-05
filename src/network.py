@@ -1,7 +1,6 @@
 # Network module
 # This module will be in charge of the network 
 # Last modification : Loic 
-import nets/sockets.py
 
 class network_manager:
 	#This module manage the network in the project coded walkie talkie.
@@ -27,9 +26,11 @@ class network_manager:
 			self.n_mode = 'none'
 
 
-	#connect to the network
-	def connect(self):
+	# Read from the network network return the new data
+	def Get_data(self):
 
-	#send something on thenetwork
-	def send(self, data):
-		
+	# send something on the network
+	def Send(self, data):
+
+	# Process the magic of network coding
+	def Process_magic(self):
