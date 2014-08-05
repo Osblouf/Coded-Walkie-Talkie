@@ -19,7 +19,7 @@ stream = p.open(format = FORMAT,
                 frames_per_buffer = chunk)
 
 # Socket Initialization
-host = '127.0.0.1'
+host = socket.gethostname()
 port = 50000
 size = 1024
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

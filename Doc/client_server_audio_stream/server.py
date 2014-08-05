@@ -14,7 +14,7 @@ stream = p.open(format = pyaudio.paInt16,
 
 # Socket Initialization
 host = socket.gethostname()
-port = 50000
+port = 12345
 backlog = 5
 size = 1024
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
