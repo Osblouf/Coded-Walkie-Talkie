@@ -35,7 +35,7 @@ s.listen(5)                 # Now wait for client connection.
 while e == True:
    c, addr = s.accept()     # Establish connection with client.
    print 'Got connection from', addr
-   print "Waiting the chunks :   
+   print "Waiting the chunks : "   
    # we read the data...   
    data = s.recv(1024)
    if not data : e = False
@@ -46,8 +46,6 @@ while e == True:
 
 # Polite Stuff
 c.send('Thank you for connecting')
-
-
 
 c.close()                # Close the connection
 

@@ -43,9 +43,9 @@ while e == True:
      	e = False
    else :
 	frames.append(data)
+
 # Polite Stuff
 c.send('Thank you for connecting')
-
 
 c.close()                # Close the connection
 
