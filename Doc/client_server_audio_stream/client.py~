@@ -32,7 +32,7 @@ s.connect((host,port))
 print "Client is connected to : ", host
 
 # Main Functionality
-while 15:
+while 1:
     entry = sys.stdin.read(1)
     if entry == "s" :
 	audioInputMode = not audioInputMode

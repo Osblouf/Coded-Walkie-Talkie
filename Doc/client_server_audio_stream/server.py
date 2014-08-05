@@ -16,18 +16,22 @@ stream = p.open(format = pyaudio.paInt16,
 host = socket.gethostname()
 port = 12345
 backlog = 5
-size = 1024
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+size = 1024 
+#s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s = socket.socket()
 s.bind((host,port))
 s.listen(backlog)
 
 client, address = s.accept()
+print 'Got connection from', address
+print "and client is :  " , client
 
 # Main Functionality
 while 1:
     data = client.recv(size)
     if data:
         # Write data to pyaudio stream
+	print "Received data from client !"
         stream.write(data)  # Stream the recieved audio data
         client.send('ACK')  # Send an ACK
 
