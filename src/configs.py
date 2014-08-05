@@ -2,9 +2,7 @@
 
 # Last modification : Loic 
 from datetime import datetime
-
 import argparse
-
 
 class Config_manager:
 
