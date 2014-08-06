@@ -52,10 +52,6 @@ class audio_core:
 	def enable_readMode(self) :
 		if self.isFromFile == True :
 			self.wf = wave.open(self.fileName, 'rb')
-			self.CHUNK = 1024
-			self.FORMAT = p.get_format_from_width(wf.getsampwidth())
-			self.CHANNELS = wf.getnchannels()
-			self.RATE = wf.getframerate()
 			self.isOpened = True
 
 	def disable_readMode(self) :

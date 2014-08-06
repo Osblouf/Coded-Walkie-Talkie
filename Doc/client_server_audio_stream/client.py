@@ -22,7 +22,7 @@ audioInputMode = False # manages the input mode : streaming sound input
 
 # Socket Initialization
 
-host = '172.17.66.208'
+host = '192.168.2.224'
 #host = socket.gethostname()
 port = 12345
 size = 1024
@@ -32,7 +32,8 @@ s = socket.socket()
 try:
 	s.connect((host,port))
 except Exception, e:
-	print 'An error cured while connecting !\n\t%s\nExit\n', `e`
+	print 'An error cured while connecting !\n\t', e
+	print '\n Exit \n'
 	exit()
 
 print "Client is connected to : ", host
