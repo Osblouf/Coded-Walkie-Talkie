@@ -1,5 +1,6 @@
 # This module will manage the audio stream
 # Last modification : Loic then D3Rnatch
+
 #!/usr/bin/env python
 import pyaudio
 import sys
@@ -37,6 +38,8 @@ class audio_core:
 	# this function acts has a destructor
 	def __stop__(self) :
 		#this is the destructor
+		self.disable_readMode()
+		self.p.terminate()
 
 	# Play the "data" => more like puting data into the pipe
 	# @param self, 
