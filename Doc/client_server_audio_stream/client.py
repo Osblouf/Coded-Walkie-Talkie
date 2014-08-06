@@ -22,8 +22,8 @@ audioInputMode = False # manages the input mode : streaming sound input
 
 # Socket Initialization
 
-#host = '192.168.43.163'
-host = socket.gethostname()
+host = '172.17.66.208'
+#host = socket.gethostname()
 port = 12345
 size = 1024
 s = socket.socket()
