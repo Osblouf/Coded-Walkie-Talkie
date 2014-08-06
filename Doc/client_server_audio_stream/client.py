@@ -27,7 +27,13 @@ host = socket.gethostname()
 port = 12345
 size = 1024
 s = socket.socket()
-s.connect((host,port))
+
+# Error management
+try:
+	s.connect((host,port))
+except Exception, e:
+	print 'An error cured while connecting !\n\t%s\nExit\n', `e`
+	exit()
 
 print "Client is connected to : ", host
 
@@ -41,8 +47,16 @@ while 15:
     if audioInputMode == True :
 	print "sending mode :"
     	data = stream.read(chunk)
-    	s.send(data)
-    	s.recv(size)
+	try:
+    		s.send(data)
+	except Exception, e:
+		print 'Error while sendig data !\n\t%s\nExit\n', `e`
+		exit()
+
+	try:
+    		s.recv(size)
+	except Exception, e:
+		print 'Error while receiving data !\n\t%s\nExit\n', `e`
 
     if audioInputMode == False :
 	print "receiving mode : "
