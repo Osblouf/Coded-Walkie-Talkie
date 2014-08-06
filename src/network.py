@@ -16,15 +16,7 @@ class network_manager:
 	#start the network module with this method
 	#Start with initiate the mode you want :
 	#- 'normal' will use the normal use of network like sockets, one route, etc
-	def __init__(self, mode=""):
-		if mode == 'normal':
-			print 'Start the network in normal mode sockets, route and shit...'
-			self.n_mode = mode
-
-		else:
-			print 'You should specify a mode to run the network manager !'
-			self.n_mode = 'none'
-
+	def __init__(self):
 
 	# Read from the network network return the new data
 	def Get_data(self):
@@ -34,3 +26,7 @@ class network_manager:
 
 	# Process the magic of network coding
 	def Process_magic(self):
+
+	# Start the server
+	def Start_listening(self):
+		

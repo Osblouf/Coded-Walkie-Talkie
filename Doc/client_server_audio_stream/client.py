@@ -49,7 +49,8 @@ while 15:
 	print "sending mode :"
     	data = stream.read(chunk)
 	try:
-    		s.send(data)
+    		send = s.send(data)
+		print 'Sended ', send
 	except Exception, e:
 		print 'Error while sendig data !\n\t%s\nExit\n', `e`
 		exit()
