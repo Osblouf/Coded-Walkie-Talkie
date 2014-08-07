@@ -83,7 +83,7 @@ class Net_manager:
 	@staticmethod
 	def Client_thread_func(sock):
 		while Net_manager.run:
-			data = sock.recv(1024)
+			data = sock.recv()
 			print '(data received)'
 			Net_manager.receive_func(data)
 		

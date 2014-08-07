@@ -15,7 +15,7 @@ frames = []
 # but first enable continuous reading is necessary !
 #audio.enable_continuousReading()
 
-for i in range(0,100) :
+for i in range(0,50) :
 	data = audio.Read()
 	frames.append(data)
 
@@ -23,7 +23,7 @@ for i in range(0,100) :
 #audio.disable_continuousReading()
 #audio.enable_continuousPlay()
 
-for i in range(0,300) :
+for i in range(0,50) :
 	audio.Play(frames[i])
 
 # we close the audio core

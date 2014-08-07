@@ -17,7 +17,7 @@ while not_get_all:
 	else:
 		ip_list.append(ip)
 
-net = Net_manager(20000, r_func)
+net = Net_manager(15000, r_func)
 for ip in ip_list:
 	net.Connect_to(ip)
 
