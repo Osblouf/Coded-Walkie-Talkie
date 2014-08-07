@@ -27,6 +27,7 @@ class Net_manager:
 		try:
 			print 'Try connecting to : ', ip_addr
 			s.connect((ip_addr, self.port))
+			
 			Net_manager.clients.append(s)
 			th = threading.Thread(None, 
 					Net_manager.Client_thread_func,
