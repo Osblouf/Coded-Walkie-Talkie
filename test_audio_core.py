@@ -13,17 +13,19 @@ frames = []
 
 # we get 500 chunks from audio input device
 # but first enable continuous reading is necessary !
-#audio.enable_continuousReading()
+audio.enable_continuousReading()
 
-for i in range(0,50) :
+for i in range(0,300) :
 	data = audio.Read()
 	frames.append(data)
+
+audio.createWaveFile("test.wav", frames) 
 
 # we play those 500 chunks directly
 #audio.disable_continuousReading()
 #audio.enable_continuousPlay()
 
-for i in range(0,50) :
+for i in range(0,300) :
 	audio.Play(frames[i])
 
 # we close the audio core
