@@ -1,13 +1,17 @@
 # This module will manage the audio stream
-# Last modification : Loic then D3Rnatch
-
+# Last modification : D3Rnatch on 7/08 at 10:24
+# TO DO List : test it !
+# Notes : --
 #!/usr/bin/env python
 import pyaudio
-import sys
 import time
+import sys
 
 class audio_core:
 
+	# audio_core parameters 
+
+	
 	# Constructor
 	# This method will instanciate a audio manager on the device.
 	# If a file_name is defined, the wave file will be streamed in the network (only if the defice is a source)
@@ -16,6 +20,9 @@ class audio_core:
 	def __init__(self, file_name=""):
 		# this constructor inits
 		self.p = pyaudio.PyAudio()	  # instanciate the pyaudio module
+		self.isContinuousPlay = False
+		self.isContinuousReading = False
+		
 		if file_name != "" :		  # if wave file given in entry
 			self.fileName = file_name
 			self.isFromFile = True
@@ -28,14 +35,21 @@ class audio_core:
 			self.isFromFile = False
 			self.fileName = ""
 			if sys.platform == 'darwin':
-			self.CHANNELS = 1
+				self.CHANNELS = 1
+		else :
+			print "audio_core.__init__ : this is debug at starting"
 
 	# this function acts has a destructor
 	# stops every running stuff
-	def __stop__(self) :
+	def stop_audioCore(self) :
 		#this is the destructor
-		self.disable_readMode()
-		self.p.terminate()
+		try :
+			self.disable_readMode()
+			self.disable_continuousPlay()
+			self.p.terminate()
+		except Exception, e:
+			print e
+			exit()
 
 	# Play the "data" => more like puting data into the pipe
 	# @param self, 
@@ -45,13 +59,16 @@ class audio_core:
 	# before calling the play function
 	def Play(self, data):
 		if self.isContinuousPlay != True :
+			print " is not continuously playin' "
 			self.stream = self.p.open(format = self.FORMAT,
                 			     channels = self.CHANNELS,
                 			     rate = self.RATE,
                 			     output = True)
-		stream.write(data)
-		if self.isContinuousPlay != True :
+			self.stream.write(data)
 			self.stream.close()
+		else :
+			print " is continuously playin' "
+			self.stream.write(data)
 	
 	# Get data from the audio source (file if defined, mic otherwise)
 	# Note : please call enable_readMode before calling the read function in readFile mode
@@ -72,9 +89,11 @@ class audio_core:
 					elif data == '' :
 						return '-1'
 				return data	
-			elif self.isOpened == False :
-				print "File is not opened, please call : audio_core.enable_readMode function	
+			elif self.isFromFile == True and self.isOpened == False :
+				print "File is not opened, please call : audio_core.enable_readMode function."
+				print "values are : ", self.isFromFile	
 			else :
+				print "DEBUG : ", self.CHUNK
 				if self.isContinuousReading == False :
 					self.stream = self.p.open(format = self.FORMAT,
             	    	channels = self.CHANNELS,
@@ -88,7 +107,7 @@ class audio_core:
 					self.stream.close()
 			
 				return data
-		except : Exception, e :
+		except Exception, e :
 			print e
 
 	# switch_readRecordMode : permits to either read the file sent in input at beginning nor read input device.
@@ -104,24 +123,24 @@ class audio_core:
 			self.isFromFile = False
 			self.fileName = ""
 			if sys.platform == 'darwin':
-			self.CHANNELS = 1
+				self.CHANNELS = 1
 		else :
 			if self.fileName == "" :
 				self.self.isFromFile = not self.self.isFromFile
 		
 		return self.isFromFile
 	
-	# enableContinuousPlay : enables the script to send chunks to the play function without  
+	# enable_continuousPlay : enables the script to send chunks to the play function without  
 	# 			restarting the device.
-	def enableContinuousPlay(self) :
+	def enable_continuousPlay(self) :
 		self.isContinuousPlay = True
 		self.stream = self.p.open(format = self.FORMAT,
                 channels = self.CHANNELS,
                 rate = self.RATE,
                 output = True)
 
-	# disableContinuousPlay : disables the continuous play system.
-	def disableContinuousPlay(self) :
+	# disable_continuousPlay : disables the continuous play system.
+	def disable_continuousPlay(self) :
 		self.isContinuousPlay = False
 		self.stream.close()
 
