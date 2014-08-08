@@ -86,6 +86,7 @@ class network_manager:
 				self.already_sending = True
 				if not self.isSending:
 					self.enable_sendingMode()
+
 				self.Send_to_all(self.send_func())
 			# Incoming data
 			else:
