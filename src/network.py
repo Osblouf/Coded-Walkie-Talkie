@@ -72,7 +72,7 @@ class network_manager:
 			print 'Error with select :\n\t', e
 			exit()
 
-
+		self.already_sending = False
 		for s in inputready:
 			#print '[Debug] Something is ready !'
 			# New connection
@@ -83,11 +83,9 @@ class network_manager:
 				self.clients.append(client)
 			elif s == sys.stdin:
 				text = sys.stdin.readline()
-<<<<<<< HEAD
-				self.enable_sendingMode()
-=======
-				
->>>>>>> Add bash script
+				self.already_sending = True
+				if not self.isSending:
+					self.enable_sendingMode()
 				self.Send_to_all(self.send_func())
 			# Incoming data
 			else:
@@ -101,6 +99,8 @@ class network_manager:
 						self.clients.remove(s)
 				except socket.error, e:
 					print 'Error while reading input data !'
+
+		if not self.already_sending and self.isSending:
 			self.disable_sendingMode()
 
 	# Send to all clients
