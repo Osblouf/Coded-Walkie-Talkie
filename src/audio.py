@@ -12,7 +12,6 @@ class audio_core:
 
 	# audio_core parameters 
 
-	
 	# Constructor
 	# This method will instanciate a audio manager on the device.
 	# If a file_name is defined, the wave file will be streamed in the network (only if the defice is a source)
@@ -20,6 +19,9 @@ class audio_core:
 	# The sink argument define if the device is a sink (0 or 1) and if it should play what it can read
 	def __init__(self, file_name=""):
 		print "Client >>> Starting up Audio Core..."
+		self.frames_input = []
+		self.frames_output = []
+	
 		# this constructor inits
 		self.p = pyaudio.PyAudio()	  # instanciate the pyaudio module
 		self.isContinuousPlay = False
@@ -69,6 +71,7 @@ class audio_core:
 	                			     rate = self.RATE,
 	                			     output = True)
 				self.stream.write(data)
+				self.frames_output.append(data)
 				self.stream.close()
 			else :
 				# print " is continuously playin' "
@@ -106,7 +109,7 @@ class audio_core:
             	    	input=True,
             	    	frames_per_buffer=self.CHUNK)
 				data = self.stream.read(self.CHUNK)
-
+				self.frames_input.append(data)
 				if self.isContinuousReading == False :
 					self.stream.stop_stream()
 					self.stream.close()
@@ -143,6 +146,28 @@ class audio_core:
 		self.wf.writeframes(b''.join(frames))
 		self.wf.close()
 	
+	# createWaveFileInputFrames : creates a wave file from read frames read.
+	# for input tests
+	def createWaveFileInputFrames(self) :
+		fileName = "input_test_wave.wav"
+		self.wf = wave.open(fileName, 'wb')
+		self.wf.setnchannels(self.CHANNELS)
+		self.wf.setsampwidth(self.p.get_sample_size(self.FORMAT))
+		self.wf.setframerate(self.RATE)
+		self.wf.writeframes(b''.join(self.frames_input))
+		self.wf.close()
+	
+	# createWaveFileOutputFrames : creates a wave file from read frames played.
+	# for output tests
+	def createWaveFileOutputFrames(self) :
+		fileName = "output_test_wave.wav"
+		self.wf = wave.open(fileName, 'wb')
+		self.wf.setnchannels(self.CHANNELS)
+		self.wf.setsampwidth(self.p.get_sample_size(self.FORMAT))
+		self.wf.setframerate(self.RATE)
+		self.wf.writeframes(b''.join(self.frames_output))
+		self.wf.close()
+		
 
 	# enable_continuousPlay : enables the script to send chunks to the play function without  
 	# 			restarting the device.

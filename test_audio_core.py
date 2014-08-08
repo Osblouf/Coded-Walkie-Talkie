@@ -2,6 +2,7 @@
 # Last Modificication from D3Rnatch
 
 import sys
+import time
 sys.path.insert(0, 'src/')
 from audio import *
 
@@ -13,9 +14,9 @@ frames = []
 
 # we get 500 chunks from audio input device
 # but first enable continuous reading is necessary !
-audio.enable_continuousReading()
+# audio.enable_continuousReading()
 
-for i in range(0,300) :
+for i in range(0,100) :
 	data = audio.Read()
 	frames.append(data)
 
@@ -23,10 +24,11 @@ audio.createWaveFile("test.wav", frames)
 
 # we play those 500 chunks directly
 #audio.disable_continuousReading()
-#audio.enable_continuousPlay()
+audio.enable_continuousPlay()
 
-for i in range(0,300) :
+for i in range(0,100) :
 	audio.Play(frames[i])
+	#time.sleep(0.01)
 
 # we close the audio core
 audio.stop_audioCore()
