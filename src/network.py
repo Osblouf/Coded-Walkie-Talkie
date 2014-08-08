@@ -83,7 +83,11 @@ class network_manager:
 				self.clients.append(client)
 			elif s == sys.stdin:
 				text = sys.stdin.readline()
+<<<<<<< HEAD
 				self.enable_sendingMode()
+=======
+				
+>>>>>>> Add bash script
 				self.Send_to_all(self.send_func())
 			# Incoming data
 			else:
