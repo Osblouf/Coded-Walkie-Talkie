@@ -16,11 +16,11 @@ class network_manager:
 	# 	- self.send_func	: function used to send data
 	#	- self.stop_stream_func : function to close stream on switch sender events...
 	# Constructeur
-	def __init__(self, port, process_function, send_function, stop_stream_function):
+	def __init__(self, port, process_function, send_function):
 		self.port = port
 		self.proc_func = process_function
 		self.send_func = send_function
-		self.stop_stream_func = stop_stream_function
+		#self.stop_stream_func = stop_stream_function
 		self.clients = []
 		
 		# flags initialisation
@@ -117,7 +117,6 @@ class network_manager:
 
 	def disable_sendingMode(self):
 		self.isSending = False
-		self.stopStream()
 	
 	def enable_sendingMode(self):
 		self.isSending = True
