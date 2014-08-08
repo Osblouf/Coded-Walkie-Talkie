@@ -20,11 +20,11 @@ class network_manager:
 		self.clients = []
 
 	# Connect to a server
-	def Connect_to(self, ip_addr):
+	def Connect_to(self, ip_addr, port):
 		try:
 			print 'Connect to ', ip_addr
 			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			s.connect((ip_addr, self.port))
+			s.connect((ip_addr, int(port)))
 			self.clients.append(s)
 			print 'Connection OK'
 		except Exception, e:
@@ -36,8 +36,8 @@ class network_manager:
 			print 'Start listenning on port ', self.port
 			self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-			self.server_socket.bind(('', port))
-			self.server.listen(5)
+			self.server_socket.bind(('', int(self.port)))
+			self.server_socket.listen(5)
 			print 'Listening OK'
 		except Exception, e:
 			print 'Error while trying to listen :\n\t', e
@@ -46,25 +46,42 @@ class network_manager:
 	# Process the network magic (each loop tic)
 	def Network_magic(self):
 		try:
-			inputready, outputready, exceptready = select.select(self.server_socket, [], [])
+			#print '[Debug] is ready ?'
+			inputs = list()
+			del inputs[:]
+			inputs.extend(self.clients)
+			inputs.append(self.server_socket)
+			inputs.append(sys.stdin)
+			inputready, outputready, exceptready = select.select(inputs, [], [], 0)
 		except select.error, e:
 			print 'FATAL SELECT ERROR !'
 			exit()
 		except socket.error, e:
 			print 'FATAL SOCKET ERROR !'
 			exit()
+		except Exception, e:
+			print 'Error with select :\n\t', e
+			exit()
+
 
 		for s in inputready:
+			#print '[Debug] Something is ready !'
 			# New connection
+			
 			if s == self.server_socket:
 				client, addr = self.server_socket.accept()
 				print 'New connection from ', addr
 				self.clients.append(client)
+			elif s == sys.stdin:
+				text = sys.stdin.readline()
+				self.Send_to_all(text)
 			# Incoming data
 			else:
+				print 'Here\'s some data !'
 				try:
-					data = server_socket.recv(1024)
+					data = s.recv(1024)
 					if data:
+						print 'Data received !'
 						self.proc_func(data)
 					else:
 						print 'Connection lost !'
@@ -76,7 +93,10 @@ class network_manager:
 	def Send_to_all(self, message):
 		for s in self.clients:
 			print 'Sending data.'
-			s.send(message)
+			try:
+				s.send(message)
+			except Exception, e:
+				print 'Error while sendig data : \n\t', e
 
 	# Close everything properly
 	def Close(self):
