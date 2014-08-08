@@ -26,7 +26,7 @@ class audio_core:
 		self.p = pyaudio.PyAudio()	  # instanciate the pyaudio module
 		self.isContinuousPlay = False
 		self.isContinuousReading = False
-		self.firstPlay == True		
+		self.firstPlay = True		
 
 		if file_name != "" :		  # if wave file given in entry
 			self.fileName = file_name

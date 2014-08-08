@@ -1,13 +1,14 @@
 # This is a simple example of the network manager 
 
+from audio import *
 from network import network_manager
 from random import randint
-from audio import *
+
 import select
 import signal
 import sys
 
-global audio = audio_core()
+audio = audio_core()
 
 def data_rec(data):
 	print 'Data received : ', data

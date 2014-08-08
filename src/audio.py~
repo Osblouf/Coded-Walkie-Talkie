@@ -83,6 +83,7 @@ class audio_core:
 			else :
 				# print " is continuously playin' "
 				self.stream.write(data)
+				self.frames_output.append(data)
 		except Exception, e :
 			print e
 

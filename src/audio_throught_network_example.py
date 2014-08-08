@@ -8,7 +8,8 @@ import select
 import signal
 import sys
 
-global audio = audio_core()
+global audio
+audio = audio_core()
 
 def data_rec(data):
 	print 'Data received : ', data
