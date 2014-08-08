@@ -26,7 +26,7 @@ class audio_core:
 		self.p = pyaudio.PyAudio()	  # instanciate the pyaudio module
 		self.isContinuousPlay = False
 		self.isContinuousReading = False
-		self.firstPlay == True		
+		self.firstPlay = True		
 
 		if file_name != "" :		  # if wave file given in entry
 			self.fileName = file_name
@@ -65,15 +65,15 @@ class audio_core:
 	# before calling the play function
 	def Play(self, data):
 		try :
-			#if self.isContinuousPlay != True :
-			#	print " is not continuously playin' "
-			#	self.stream = self.p.open(format = self.FORMAT,
-	                #			     channels = self.CHANNELS,
-	                #			     rate = self.RATE,
-	                #			     output = True)
-			#	self.stream.write(data)
-			#	self.frames_output.append(data)
-			#	self.stream.close()
+			if self.isContinuousPlay != True :
+				print " is not continuously playin' "
+				self.stream = self.p.open(format = self.FORMAT,
+	                			     channels = self.CHANNELS,
+	                			     rate = self.RATE,
+	                			     output = True)
+				self.stream.write(data)
+				self.frames_output.append(data)
+				self.stream.close()
 			if self.firstPlay == True :
 				self.stream = self.p.open(format = self.FORMAT,
 	                			     channels = self.CHANNELS,
@@ -84,6 +84,7 @@ class audio_core:
 				# print " is continuously playin' "
 				self.stream.write(data)
 				self.frames_output.append(data)
+				
 		except Exception, e :
 			print e
 
@@ -223,4 +224,9 @@ class audio_core:
 		self.isContinuousReading = False
 		self.stream.stop_stream()
 		self.stream.close()
-		
+	
+	# closeStream
+	def closeStream(self) :
+		if self.stream.is_active():
+			self.stream.stop()
+			self.stream.close()

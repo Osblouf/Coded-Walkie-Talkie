@@ -14,12 +14,19 @@ class network_manager:
 	#	- self.clients		: socket list of connections
 	#	- self.server_socket	: listening server socket
 	# 	- self.send_func	: function used to send data
+	#	- self.stop_stream_func : function to close stream on switch sender events...
 	# Constructeur
-	def __init__(self, port, process_function, send_function):
+	def __init__(self, port, process_function, send_function, stop_stream_function):
 		self.port = port
 		self.proc_func = process_function
 		self.send_func = send_function
+		self.stop_stream_func = stop_stream_function
 		self.clients = []
+		
+		# flags initialisation
+		self.isSending = False 			# Sengin flag
+		self.isReceiving = False		# Receiving flag
+		self.firstParameters = True		# this is first case param
 
 	# Connect to a server
 	def Connect_to(self, ip_addr, port):
@@ -76,19 +83,21 @@ class network_manager:
 				self.clients.append(client)
 			elif s == sys.stdin:
 				text = sys.stdin.readline()
-				# self.Send_to_all(text)
-				self.send_to_all(self.send_func())
+				self.enable_sendingMode()
+				self.Send_to_all(self.send_func())
 			# Incoming data
 			else:
 				try:
 					data = s.recv(1024)
-					if data:
-						self.proc_func(data)
+					if data :
+						if self.isSending == False :
+							self.proc_func(data)
 					else:
 						print 'Connection lost ! from ', s.getpeername()
 						self.clients.remove(s)
 				except socket.error, e:
 					print 'Error while reading input data !'
+			self.disable_sendingMode()
 
 	# Send to all clients
 	def Send_to_all(self, message):
@@ -106,4 +115,11 @@ class network_manager:
 			
 		self.server_socket.close()
 
-
+	def disable_sendingMode(self):
+		self.isSending = False
+	
+	def enable_sendingMode(self):
+		self.isSending = True
+	
+	def stopStream(self):
+		self.stop_stream_function	

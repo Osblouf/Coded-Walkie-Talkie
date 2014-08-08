@@ -65,25 +65,21 @@ class audio_core:
 	# before calling the play function
 	def Play(self, data):
 		try :
-			#if self.isContinuousPlay != True :
-			#	print " is not continuously playin' "
-			#	self.stream = self.p.open(format = self.FORMAT,
-	                #			     channels = self.CHANNELS,
-	                #			     rate = self.RATE,
-	                #			     output = True)
-			#	self.stream.write(data)
-			#	self.frames_output.append(data)
-			#	self.stream.close()
-			if self.firstPlay == True :
+			if self.isContinuousPlay != True :
+				print " is not continuously playin' "
 				self.stream = self.p.open(format = self.FORMAT,
 	                			     channels = self.CHANNELS,
 	                			     rate = self.RATE,
 	                			     output = True)
-				self.firstPlay = False
+				self.stream.write(data)
+				self.frames_output.append(data)
+				self.stream.close()
+			
 			else :
 				# print " is continuously playin' "
 				self.stream.write(data)
 				self.frames_output.append(data)
+				
 		except Exception, e :
 			print e
 
@@ -223,4 +219,9 @@ class audio_core:
 		self.isContinuousReading = False
 		self.stream.stop_stream()
 		self.stream.close()
-		
+	
+	# closeStream
+	def closeStream(self) :
+		if self.stream.is_active():
+			self.stream.stop()
+			self.stream.close()
