@@ -26,13 +26,14 @@ class audio_core:
 		self.p = pyaudio.PyAudio()	  # instanciate the pyaudio module
 		self.isContinuousPlay = False
 		self.isContinuousReading = False
-		
+		self.firstPlay == True		
+
 		if file_name != "" :		  # if wave file given in entry
 			self.fileName = file_name
 			self.isFromFile = True
 			
 		elif not file_name :
-			self.CHUNK = 8192
+			self.CHUNK = 1024
 			self.FORMAT = pyaudio.paInt16
 			self.CHANNELS = 2
 			self.RATE = 44100
@@ -64,15 +65,21 @@ class audio_core:
 	# before calling the play function
 	def Play(self, data):
 		try :
-			if self.isContinuousPlay != True :
-				print " is not continuously playin' "
+			#if self.isContinuousPlay != True :
+			#	print " is not continuously playin' "
+			#	self.stream = self.p.open(format = self.FORMAT,
+	                #			     channels = self.CHANNELS,
+	                #			     rate = self.RATE,
+	                #			     output = True)
+			#	self.stream.write(data)
+			#	self.frames_output.append(data)
+			#	self.stream.close()
+			if self.firstPlay == True :
 				self.stream = self.p.open(format = self.FORMAT,
 	                			     channels = self.CHANNELS,
 	                			     rate = self.RATE,
 	                			     output = True)
-				self.stream.write(data)
-				self.frames_output.append(data)
-				self.stream.close()
+				self.firstPlay = False
 			else :
 				# print " is continuously playin' "
 				self.stream.write(data)
@@ -124,7 +131,7 @@ class audio_core:
 	def switch_readRecordMode(self) :
 		self.isFromFile = not self.isFromFile
 		if self.isFromFile == False :
-			self.CHUNK = 8192
+			self.CHUNK = 1024
 			self.FORMAT = pyaudio.paInt16
 			self.CHANNELS = 2
 			self.RATE = 44100

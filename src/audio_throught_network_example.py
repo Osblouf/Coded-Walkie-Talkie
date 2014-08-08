@@ -1,8 +1,9 @@
 # This is a simple example of the network manager 
 
+from audio import *
 from network import network_manager
 from random import randint
-from audio import *
+
 import select
 import signal
 import sys
@@ -15,7 +16,7 @@ def data_rec(data):
 print 'Select a port'
 port = raw_input()
 
-net = network_manager(port, audio.Read)
+net = network_manager(port, audio.Play, audio.Read)
 
 def closing():
 	net.Close()

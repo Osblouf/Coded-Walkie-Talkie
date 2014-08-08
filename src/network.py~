@@ -76,7 +76,7 @@ class network_manager:
 				self.clients.append(client)
 			elif s == sys.stdin:
 				text = sys.stdin.readline()
-				
+				# self.Send_to_all(text)
 				self.send_to_all(self.send_func())
 			# Incoming data
 			else:
