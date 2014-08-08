@@ -1,0 +1,10 @@
+$ git commit
+$ git pull --rebase (edit conflict + git add files)
+$ git rebase --continue (en cas de conflits)
+$ git push
+
+-------------------------
+$ git commit
+$ git pull (= merge => resolve conflicts + git add files)
+$ git commit (en  cas de conflits)
+$ git push
