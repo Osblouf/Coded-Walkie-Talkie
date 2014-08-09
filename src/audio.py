@@ -80,6 +80,9 @@ class audio_core:
 	                			     rate = self.RATE,
 	                			     output = True)
 				self.firstPlay = False
+			elif data == '' :
+				self.in_stream.stop_stream()
+				self.in_stream.close()
 			else :
 				# print " is continuously playin' "
 				self.in_stream.write(data)

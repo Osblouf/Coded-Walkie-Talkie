@@ -26,7 +26,7 @@ class audio_core:
 		self.p = pyaudio.PyAudio()	  # instanciate the pyaudio module
 		self.isContinuousPlay = False
 		self.isContinuousReading = False
-		self.firstPlay == True		
+		self.firstPlay = True		
 
 		if file_name != "" :		  # if wave file given in entry
 			self.fileName = file_name
@@ -75,14 +75,14 @@ class audio_core:
 			#	self.frames_output.append(data)
 			#	self.stream.close()
 			if self.firstPlay == True :
-				self.stream = self.p.open(format = self.FORMAT,
+				self.in_stream = self.p.open(format = self.FORMAT,
 	                			     channels = self.CHANNELS,
 	                			     rate = self.RATE,
 	                			     output = True)
 				self.firstPlay = False
 			else :
 				# print " is continuously playin' "
-				self.stream.write(data)
+				self.in_stream.write(data)
 				self.frames_output.append(data)
 		except Exception, e :
 			print e
@@ -111,16 +111,16 @@ class audio_core:
 				print "values are : ", self.isFromFile	
 			else :
 				if self.isContinuousReading == False :
-					self.stream = self.p.open(format = self.FORMAT,
-            	    	channels = self.CHANNELS,
-            	    	rate = self.RATE,
-            	    	input=True,
-            	    	frames_per_buffer=self.CHUNK)
-				data = self.stream.read(self.CHUNK)
+					self.out_stream = self.p.open(format = self.FORMAT,
+            	    					channels = self.CHANNELS,
+            	    					rate = self.RATE,
+            	    					input=True,
+            	    					frames_per_buffer=self.CHUNK)
+				data = self.out_stream.read(self.CHUNK)
 				self.frames_input.append(data)
 				if self.isContinuousReading == False :
-					self.stream.stop_stream()
-					self.stream.close()
+					self.out_stream.stop_stream()
+					self.out_stream.close()
 			
 				return data
 		except Exception, e :
@@ -181,15 +181,15 @@ class audio_core:
 	# 			restarting the device.
 	def enable_continuousPlay(self) :
 		self.isContinuousPlay = True
-		self.stream = self.p.open(format = self.FORMAT,
-                channels = self.CHANNELS,
-                rate = self.RATE,
-                output = True)
+		self.in_stream = self.p.open(format = self.FORMAT,
+                			channels = self.CHANNELS,
+                			rate = self.RATE,
+                			output = True)
 
 	# disable_continuousPlay : disables the continuous play system.
 	def disable_continuousPlay(self) :
 		self.isContinuousPlay = False
-		self.stream.close()
+		self.in_stream.close()
 
 	# enable_readMode : activate the readMode by opening the wave file and sets environment values
 	def enable_readMode(self) :
