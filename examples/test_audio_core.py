@@ -3,7 +3,7 @@
 
 import sys
 import time
-sys.path.insert(0, 'src/')
+sys.path.insert(0, '../src/')
 from audio import *
 
 # creating and starting the audio core system.
@@ -28,7 +28,7 @@ audio.enable_continuousPlay()
 
 for i in range(0,100) :
 	audio.Play(frames[i])
-	time.sleep(0.01)
+	#time.sleep(0.01)
 
 # we close the audio core
 audio.stop_audioCore()

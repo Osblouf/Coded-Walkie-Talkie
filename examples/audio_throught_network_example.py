@@ -1,11 +1,16 @@
 # This is a simple example of the network manager 
 
-from network import network_manager
 from random import randint
 import select
 import signal
 import sys
 
+sys.path.insert(0, '../src/')
+from audio import *
+from network import network_manager
+
+global audio
+audio = audio_core()
 
 def data_rec(data):
 	print 'Data received : ', data
@@ -13,7 +18,7 @@ def data_rec(data):
 print 'Select a port'
 port = raw_input()
 
-net = network_manager(port, data_rec)
+net = network_manager(port, audio.Play, audio.Read)
 
 def closing():
 	net.Close()
