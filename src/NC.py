@@ -1,4 +1,4 @@
-# This module is in charge of the network coding. It simply uses kodo.
+#This module is in charge of kodo.
 
 import kodo
 
@@ -8,27 +8,23 @@ class NC_manager:
 	# Define a NC manager
 	#  - symbols : number of symbols
 	#  - symbol_size : symbol size
-	#  - mode : encoding / decoding mode 
-	#		- 'normal' : encode and decode the full matrice
-	#		- 'on the fly' : encode and decode on the fly
-	#		- 'window' : encode and deccode in window mode
-	def __init__(self, symbols, symbol_size, mode):
+	def __init__(self, symbols, symbol_size):
 		# Construct the encoder
-		self.encoder_factory = kodo.full_rlnc_encoder_factory_binary(symbols, 
+		self.encoder_factory = kodo.full_rlnc_encoder_factory_binary8(symbols, 
 									symbol_size)
 		self.encoder = self.encoder_factory.build()
 
 		# Construct the decoder
-		self.decoder_factory = kodo.full_rlnc_decoder_factory_binary(symbols,
+		self.decoder_factory = kodo.full_rlnc_decoder_factory_binary8(symbols,
 									symbol_size)
 		self.decoder = self.decoder_factory.build()
 
 	# Encode some data
 	def Encode(self, data):
-		self.encoder.set_symbols(data_in)
+		self.encoder.set_symbols(data)
 
 	# Get packets
-	def Get_paket(self):
+	def Get_packet(self):
 		return (self.encoder.encode())
 
 	# Try to decode some packet
@@ -39,4 +35,6 @@ class NC_manager:
 		else:
 			return False
 
-		
+	# Get data out
+	def Get_data_out(self):
+		return decoder.copy_symbols()		

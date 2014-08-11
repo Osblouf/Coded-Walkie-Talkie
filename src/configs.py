@@ -48,3 +48,6 @@ class Config_manager:
 			print '[' + datetime.utcnow().strftime('%H:%M:%S.%f') + '] Debug message :'
 			print '\t' + message
 
+	# Getting the file name
+	def get_file_name(self):
+		return self.args.file
