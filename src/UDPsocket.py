@@ -21,8 +21,8 @@ class UDPsocket:
 	def setListener(self) :
 		try :
 			self.sock.bind((self.UDP_IP, self.UDP_PORT))
-        except Exception e :
-            print "Server Error >>> Error on Binding : ", e
+        	except Exception, e :
+          		print 'Server Error >>> Error on Binding : ', e
 
 	def read(self,size) :
 		return self.recv(size)

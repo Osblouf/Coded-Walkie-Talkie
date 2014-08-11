@@ -8,7 +8,7 @@ sys.path.insert(0, 'src/')
 from configs import Config_manager 
 from audio import audio_core
 from NC import NC_manager
-from network import network_manager
+from network_udp import UDP_network_manager
 
 # Stating point of the progtramm
 # Get the parameters
@@ -111,7 +111,7 @@ audio = audio_core(configs.get_file_name)
 nc = NC_manager(10, 1024)
 
 # Start the network manager
-nm = network_manager('', '127.0.0.1', 12000, process, sending)
+nm = UDP_network_manager('', '127.0.0.1', 12000, process, sending)
 nm.Start_listenning()
 
 # Listen system interrupt
