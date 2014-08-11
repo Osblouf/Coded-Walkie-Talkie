@@ -29,5 +29,5 @@ class UDPsocket:
 		return self.recv(size)
 	
 	def write(self,data) :
-		self.sock.sendto(data, (self.UDP_IP, self.UDP_PORT))
+		sock.sendto(data, (self.UDP_IP, self.UDP_PORT))
 	

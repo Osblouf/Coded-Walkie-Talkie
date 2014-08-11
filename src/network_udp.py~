@@ -27,8 +27,7 @@ class UDP_network_manager:
 			self.server_socket.setListener() # here this socket is binded on self.port
 
 		except Exception, e :
-			print "Server Fatal Error >>>", e
-			exit()
+			print "Server Error >>>", e
 
 
 	def Network_magic(self) :

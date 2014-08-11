@@ -21,7 +21,7 @@ class NC_manager:
 
 	# Encode some data
 	def Encode(self, data):
-		self.encoder.set_symbols(bytes(data))
+		self.encoder.set_symbols(data)
 
 	# Get packets
 	def Get_packet(self):

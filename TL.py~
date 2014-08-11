@@ -115,7 +115,7 @@ def process(data):
 		process_source()
 
 # Start audio if not relay
-audio = audio_core()
+audio = audio_core('')
 
 # Start the NC manager
 nc = NC_manager(10, 1024)
