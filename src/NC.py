@@ -20,10 +20,11 @@ class NC_manager:
 	# Encode some data
 	def Encode(self, data):
 		self.encoder = self.encoder_factory.build()
+		print 'Bloc size : ', self.encoder.block_size()
 		self.encoder.set_symbols(bytes(data))
 
 	# Create new encoder 
-	def New_decoder(self)
+	def New_decoder(self):
 		self.decoder = self.decoder_factory.build()
 
 	# Get packets

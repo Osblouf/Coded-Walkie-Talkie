@@ -16,6 +16,7 @@ class UDP_network_manager:
 		self.port = servport
 		self.sendFunc = send_function
 		self.readFunc = read_function
+		self.is_sending = False
 		print " Server >>> Server created on port : ", self.port, ", brdCAST is :", self.broadcast
 		print " Server >>> Server is :", self.server
 
@@ -55,8 +56,11 @@ class UDP_network_manager:
 			# New connection
 			if s == sys.stdin:
 				text = sys.stdin.readline()
+				if self.is_sending:
+					self.is_sending = False
+				else:
+					self.is_sending = True
 				
-				self.Send_to_all(self.sendFunc())
 			# Incoming data
 			else:
 				try:
@@ -68,6 +72,9 @@ class UDP_network_manager:
 						print "Server Error >>> Data read is empty !"
 				except socket.error, e:
 					print "Server Error >>> Socket error on reading data : ", e
+
+		if self.is_sending:
+			self.Send_to_all(self.sendFunc())
 
 	def Send_to_all(self, data) :
 		try :

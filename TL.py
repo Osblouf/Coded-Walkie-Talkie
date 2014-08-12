@@ -53,7 +53,9 @@ def sending_source():
 		configs.verbose_message('Sending new matrice info')
 		if not new_matrice_created:
 			configs.verbose_message('Creating coefs')
-			nc.Encode(audio.Read())
+			data_send = audio.Read()
+			print 'Size of data send : ', sys.getsizeof(data_send)
+			nc.Encode(data_send)
 			new_matrice_created = True
 		return 'New_matrice'
 	# If has to send coded packets
@@ -74,7 +76,6 @@ def sending():
 # Processing data :
 def process_sink(data):
 	global decoded
-	configs.verbose_message('Receiving data and process it !')
 	#If new matrice arriving
 	if data == 'New_matrice':
 		nc.New_decoder()
@@ -91,6 +92,7 @@ def process_sink(data):
 			if nc.Decode(data):
 				configs.verbose_message('Decode ok !')
 				nm.Send_to_all('OK2')
+				audio.Play(nc.Get_data_out())
 				decoded = True
 		
 		
@@ -125,15 +127,16 @@ def process(data):
 audio = audio_core()
 
 # Start the NC manager
-nc = NC_manager(10, 512)
+nc = NC_manager(20, 512)
 
 # Start the network manager
-nm = UDP_network_manager('', '127.0.0.1', 12000, sending, process)
+nm = UDP_network_manager('', '192.168.1.1', 12000, sending, process)
 nm.Start_listenning()
 
 # Listen system interrupt
 def closing(arg1, arg2):
-	nm.Close()
+	audio.createWaveFileInputFrames()
+	audio.createWaveFileOutputFrames()
 	audio.stop_audioCore()
 	# Bye message
 	print "--"

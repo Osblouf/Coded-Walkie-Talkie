@@ -34,7 +34,7 @@ class audio_core:
 			self.isFromFile = True
 			
 		elif not file_name :
-			self.CHUNK = 1024
+			self.CHUNK = 2048
 			self.FORMAT = pyaudio.paInt16
 			self.CHANNELS = 2
 			self.RATE = 44100
