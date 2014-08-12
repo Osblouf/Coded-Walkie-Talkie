@@ -127,7 +127,7 @@ def process(data):
 audio = audio_core()
 
 # Start the NC manager
-nc = NC_manager(20, 512)
+nc = NC_manager(65, 512)
 
 # Start the network manager
 nm = UDP_network_manager('', '192.168.1.1', 12000, sending, process)

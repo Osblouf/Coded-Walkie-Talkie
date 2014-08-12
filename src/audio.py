@@ -34,10 +34,10 @@ class audio_core:
 			self.isFromFile = True
 			
 		elif not file_name :
-			self.CHUNK = 2048
-			self.FORMAT = pyaudio.paInt16
+			self.CHUNK = 4096
+			self.FORMAT = pyaudio.paInt32
 			self.CHANNELS = 2
-			self.RATE = 44100
+			self.RATE = 22050
 			self.isFromFile = False
 			self.fileName = ""
 			#if sys.platform == 'darwin':
