@@ -106,7 +106,7 @@ def process_source(data):
 		configs.verbose_message('OK received, state = Not_new_matrice')
 
 	# Else if ('OK2') then start new matrice
-	elif data == 'OK2':
+	elif data == 'OK2' and state == "Not_new_matrice":
 		state = "New_matrice"
 		configs.verbose_message('All received, proceed new matrice')
 		new_matrice_created = False
@@ -142,6 +142,7 @@ def closing(arg1, arg2):
 	print "--"
 	print "Bye bye"
 	print "--\n"
+	exit()
 
 signal.signal(signal.SIGINT, closing)
 # Infinite loop
