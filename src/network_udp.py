@@ -60,8 +60,8 @@ class UDP_network_manager:
 			# Incoming data
 			else:
 				try:
-					data, addr = self.server_socket.recvfrom(1024)
-					print "Server >>> Data received from : ", addr
+					data, addr = self.server_socket.read(1024)
+					#print "Server >>> Data received from : ", addr
 					if data:
 						self.readFunc(data)
 					else:

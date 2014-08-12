@@ -39,7 +39,7 @@ class Config_manager:
 	# Manage the verbose messages
 	def verbose_message(self, message):
 		if self.args.verbose:
-			print '[' + datetime.utcnow().strftime('%H:%M:%S.%f') + '] Verbose message :'
+			#print '[' + datetime.utcnow().strftime('%H:%M:%S.%f') + '] Verbose message :'
 			print "\t" + message
 
 	# Manage the debug messages

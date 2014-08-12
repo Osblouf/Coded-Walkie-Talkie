@@ -26,7 +26,7 @@ class UDPsocket:
 			exit()
 
 	def read(self,size) :
-		return self.recv(size)
+		return self.sock.recvfrom(size)
 	
 	def write(self,data) :
 		self.sock.sendto(data, (self.UDP_IP, self.UDP_PORT))

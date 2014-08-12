@@ -77,14 +77,19 @@ def process_sink(data):
 	configs.verbose_message('Receiving data and process it !')
 	#If new matrice arriving
 	if data == 'New_matrice':
+		nc.New_decoder()
+		configs.verbose_message('New matrice incomming !')
 		nm.Send_to_all('OK')
 		decoded = False
 	#Else
 	else:
 		if decoded:
+			configs.verbose_message('Everything is here but, resend ok2')
 			nm.Send_to_all('OK2')
 		else:
-			if nc.decode(data):
+			configs.verbose_message('Trying to decode')
+			if nc.Decode(data):
+				configs.verbose_message('Decode ok !')
 				nm.Send_to_all('OK2')
 				decoded = True
 		
@@ -94,12 +99,14 @@ def process_source(data):
 	global state
 	configs.verbose_message('Getting data from someone !')
 	# If ('OK') then send coded packets
-	if data == 'OK':
+	if data == 'OK' and state == "New_matrice":
 		state = "Not_new_matrice"
+		configs.verbose_message('OK received, state = Not_new_matrice')
 
 	# Else if ('OK2') then start new matrice
 	elif data == 'OK2':
 		state = "New_matrice"
+		configs.verbose_message('All received, proceed new matrice')
 		new_matrice_created = False
 
 def process_relay(data):
@@ -108,20 +115,20 @@ def process_relay(data):
 
 def process(data):
 	if configs.args.relay:
-		process_relay()
+		process_relay(data)
 	elif configs.args.sink:
-		process_sink()
+		process_sink(data)
 	else:
-		process_source()
+		process_source(data)
 
 # Start audio if not relay
 audio = audio_core()
 
 # Start the NC manager
-nc = NC_manager(10, 1024)
+nc = NC_manager(10, 512)
 
 # Start the network manager
-nm = UDP_network_manager('', '192.168.1.255', 12000, sending, process)
+nm = UDP_network_manager('', '127.0.0.1', 12000, sending, process)
 nm.Start_listenning()
 
 # Listen system interrupt
