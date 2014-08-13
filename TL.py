@@ -4,6 +4,7 @@
 
 import sys
 import signal
+import thread
 sys.path.insert(0, 'src/')
 from configs import Config_manager 
 from audio import audio_core
@@ -18,6 +19,11 @@ new_matrice_created = False
 
 #global decoded
 decoded = False
+
+out_buffer = list()
+buffer_is_ready = False
+out_size = 10
+is_running = False
 
 # Stating point of the progtramm
 # Get the parameters
@@ -74,8 +80,51 @@ def sending():
 		return sending_source()
 
 # Processing data :
+def audio_wrapper(audio) :
+	global out_buffer
+	global buffer_is_ready
+	global out_size
+	global is_running
+	
+	while is_running :
+
+		if len(out_buffer) >= out_size :
+			buffer_is_ready = True
+
+		else :
+			buffer_is_ready = False
+
+		if buffer_is_ready == True :
+			audio.Play(out_buffer.pop())
+	
+
+def close_thread() :
+	global out_buffer
+	global buffer_is_ready
+	global out_size
+	global is_running
+
+	is_running = False
+	buffer_is_ready = False
+	out_buffer = list()
+
+def send_to_thread() :
+	global out_buffer
+	global buffer_is_ready
+	global out_size
+	global is_running
+
+	try :
+		out_buffer = list()
+		thread.start_new_thread(audio_wrapper,(audio,))
+		buffer_is_ready = True
+		is_running = True
+	except Exception,e :
+		print "Error on creating the thread.", e
+
 def process_sink(data):
 	global decoded
+	global out_buffer
 	#If new matrice arriving
 	if data == 'New_matrice':
 		nc.New_decoder()
@@ -92,6 +141,10 @@ def process_sink(data):
 			if nc.Decode(data):
 				configs.verbose_message('Decode ok !')
 				nm.Send_to_all('OK2')
+				
+				#out_buffer.append(nc.Get_data_out())
+				#if not is_running :
+				#	send_to_thread()
 				audio.Play(nc.Get_data_out())
 				decoded = True
 		
@@ -130,7 +183,7 @@ audio = audio_core()
 nc = NC_manager(65, 512)
 
 # Start the network manager
-nm = UDP_network_manager('', '192.168.1.1', 12000, sending, process)
+nm = UDP_network_manager('', '192.168.1.2', 12000, sending, process)
 nm.Start_listenning()
 
 # Listen system interrupt

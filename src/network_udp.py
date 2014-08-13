@@ -26,7 +26,7 @@ class UDP_network_manager:
 			self.destSock = UDPsocket(self.broadcast,self.port)
 			self.server_socket = UDPsocket(self.server, self.port)
 			self.server_socket.setListener() # here this socket is binded on self.port
-
+			self.server_socket.sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 		except Exception, e :
 			print "Server Fatal Error >>>", e
 			exit()
