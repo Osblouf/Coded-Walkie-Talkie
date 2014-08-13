@@ -183,7 +183,7 @@ audio = audio_core()
 nc = NC_manager(65, 512)
 
 # Start the network manager
-nm = UDP_network_manager('', '192.168.1.2', 12000, sending, process)
+nm = UDP_network_manager('', '192.168.1.255', 12000, sending, process)
 nm.Start_listenning()
 
 # Listen system interrupt
